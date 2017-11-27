@@ -1,6 +1,6 @@
 # Round Robin Meal Picker
 
-[See end for Final Project Proposal] (#for-final-project)
+[See end for Final Project Proposal](#for-sure-in-final-project)
 
 Ever been stuck with a group of people all asking what they want to eat and no one is able to pick or come to consensus? This app aims to fix that! Introducing <Round Robin Meal Picker> the innovative new app that allows all involved parties to signup and register their preferred eating establishments and forces a single individual to make the decision (or group vote if you're into that).
 
