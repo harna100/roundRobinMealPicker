@@ -6,16 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 import io.impaul.harna100.roundrobinpicker.R;
 import io.impaul.harna100.roundrobinpicker.adapters.NavListAdapter;
 import io.impaul.harna100.roundrobinpicker.fragments.HomeFragment;
 import io.impaul.harna100.roundrobinpicker.fragments.MyFragment;
+import io.impaul.harna100.roundrobinpicker.interfaces.NavContainerInterface;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends NavContainer implements NavContainerInterface {
 
+	private static final String TAG = "MainActivity";
 	private FrameLayout fl_mainContainer;
 	private NavigationView nv_navBar;
 	private DrawerLayout dl_drawer;
@@ -29,19 +33,13 @@ public class MainActivity extends AppCompatActivity {
 		getReferences();
 		setListeners();
 		setUpRecyclerView();
-		setFragment(HomeFragment.NewInstance());
+		setFragment(HomeFragment.NewInstance(), false);
 
 		dl_drawer.openDrawer(Gravity.START);
 		setUpRecyclerView();
 	}
 
 
-	private void setFragment(MyFragment fragToSet) {
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fl_mainContainer, fragToSet)
-				.addToBackStack(fragToSet.getName())
-				.commit();
-	}
 
 	private void getReferences() {
 		fl_mainContainer = findViewById(R.id.fl_mainContainer);

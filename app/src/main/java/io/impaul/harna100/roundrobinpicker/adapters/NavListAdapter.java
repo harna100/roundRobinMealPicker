@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.impaul.harna100.roundrobinpicker.R;
+import io.impaul.harna100.roundrobinpicker.activities.NavContainer;
+import io.impaul.harna100.roundrobinpicker.interfaces.NavContainerInterface;
+import io.impaul.harna100.roundrobinpicker.models.FragmentTypes;
 import io.impaul.harna100.roundrobinpicker.models.NavItemModel;
 
-/**
- * Created by Paul on 12/8/2017.
- */
 
 public class NavListAdapter extends RecyclerView.Adapter<NavListAdapter.NavViewHolder> {
 
@@ -24,9 +24,9 @@ public class NavListAdapter extends RecyclerView.Adapter<NavListAdapter.NavViewH
 
 	public NavListAdapter() {
 		navItems = new ArrayList<>();
-		navItems.add(new NavItemModel("Home", R.drawable.ic_home));
-		navItems.add(new NavItemModel("Groups", R.drawable.ic_people));
-		navItems.add(new NavItemModel("Events", R.drawable.ic_dates));
+		navItems.add(new NavItemModel("Home", R.drawable.ic_home, FragmentTypes.HOME_FRAGMENT));
+		navItems.add(new NavItemModel("Groups", R.drawable.ic_people, FragmentTypes.HOME_FRAGMENT));
+		navItems.add(new NavItemModel("Events", R.drawable.ic_dates, FragmentTypes.HOME_FRAGMENT));
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class NavListAdapter extends RecyclerView.Adapter<NavListAdapter.NavViewH
 		return navItems.size();
 	}
 
-	class NavViewHolder extends RecyclerView.ViewHolder {
+	class NavViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 		private NavItemModel navItemModel;
 		private ImageView iv_navCell;
@@ -57,6 +57,7 @@ public class NavListAdapter extends RecyclerView.Adapter<NavListAdapter.NavViewH
 		public NavViewHolder(View itemView) {
 			super(itemView);
 			getReferences(itemView);
+			itemView.setOnClickListener(this);
 		}
 
 		private void getReferences(View itemView) {
@@ -78,6 +79,13 @@ public class NavListAdapter extends RecyclerView.Adapter<NavListAdapter.NavViewH
 		private void setLayout(){
 			iv_navCell.setImageResource(navItemModel.getNavIcon());
 			tv_navCell.setText(navItemModel.getNavName());
+		}
+
+		@Override
+		public void onClick(View view) {
+			NavContainerInterface nci = (NavContainerInterface) view.getContext();
+			nci.changeFragment(navItemModel.getFragType());
+			nci.hideDrawer();
 		}
 	}
 }
