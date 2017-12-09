@@ -35,33 +35,11 @@ public class MainActivity extends NavContainer implements NavContainerInterface 
 		getReferences();
 		setListeners();
 		setUpRecyclerView();
+		setUpNavigationDrawer();
+
 		setFragment(HomeFragment.NewInstance(), false);
 
 		dl_drawer.openDrawer(Gravity.START);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-
-		setUpRecyclerView();
-
-		drawerToggle = new ActionBarDrawerToggle(this,
-														dl_drawer,
-														R.string.drawer_open,
-														R.string.drawer_close){
-			public void onDrawerClosed(View view){
-				super.onDrawerClosed(view);
-				getSupportActionBar().setTitle(R.string.app_name);
-				getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-			}
-			public void onDrawerOpened(View drawerView){
-				super.onDrawerOpened(drawerView);
-				getSupportActionBar().setTitle("Navigation");
-				getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-			}
-		};
-
-		dl_drawer.addDrawerListener(drawerToggle);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 
@@ -82,6 +60,30 @@ public class MainActivity extends NavContainer implements NavContainerInterface 
 		rv_navList.setLayoutManager(new LinearLayoutManager(this));
 		rv_navList.setAdapter(new NavListAdapter());
 		rv_navList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+	}
+
+	private void setUpNavigationDrawer(){
+		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+		drawerToggle = new ActionBarDrawerToggle(this,
+				dl_drawer,
+				R.string.drawer_open,
+				R.string.drawer_close){
+			public void onDrawerClosed(View view){
+				super.onDrawerClosed(view);
+				getSupportActionBar().setTitle(R.string.app_name);
+				getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+			}
+			public void onDrawerOpened(View drawerView){
+				super.onDrawerOpened(drawerView);
+				getSupportActionBar().setTitle("Navigation");
+				getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+			}
+		};
+
+		dl_drawer.addDrawerListener(drawerToggle);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
