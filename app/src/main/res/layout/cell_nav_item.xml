@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rl_navCell"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_navCellIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="24sp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@id/tv_navTvCell"/>
+
+    <TextView
+        android:id="@+id/tv_navTvCell"
+        android:layout_marginStart="5dp"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout >

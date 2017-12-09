@@ -1,4 +1,4 @@
-package io.impaul.harna100.roundrobinpicker;
+package io.impaul.harna100.roundrobinpicker.activities;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import io.impaul.harna100.roundrobinpicker.R;
 
 public class LoginActivity extends AppCompatActivity{
 
