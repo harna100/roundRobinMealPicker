@@ -4,6 +4,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,5 +57,6 @@ public class MainActivity extends NavContainer implements NavContainerInterface 
 	private void setUpRecyclerView() {
 		rv_navList.setLayoutManager(new LinearLayoutManager(this));
 		rv_navList.setAdapter(new NavListAdapter());
+		rv_navList.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 	}
 }
