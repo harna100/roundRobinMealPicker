@@ -50,6 +50,11 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 		return places.size();
 	}
 
+	public void remove(int adapterPosition) {
+		places.remove(adapterPosition);
+		notifyItemRemoved(adapterPosition);
+	}
+
 	class PlaceViewHolder extends RecyclerView.ViewHolder {
 		private TextView tv_cardPlaceName;
 		private TextView tv_cardPlaceAddress;

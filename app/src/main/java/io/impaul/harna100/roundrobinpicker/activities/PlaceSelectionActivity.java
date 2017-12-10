@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import io.impaul.harna100.roundrobinpicker.R;
 import io.impaul.harna100.roundrobinpicker.adapters.PlaceListAdapter;
+import io.impaul.harna100.roundrobinpicker.models.CardPlaceTouchHelper;
 
 
 public class PlaceSelectionActivity extends AppCompatActivity {
@@ -20,7 +22,12 @@ public class PlaceSelectionActivity extends AppCompatActivity {
 
 		getReferences();
 		rv_placeList.setLayoutManager(new LinearLayoutManager(this));
-		rv_placeList.setAdapter(new PlaceListAdapter());
+		PlaceListAdapter adapter = new PlaceListAdapter();
+		rv_placeList.setAdapter(adapter);
+		ItemTouchHelper.SimpleCallback callback = new CardPlaceTouchHelper(adapter);
+		ItemTouchHelper helper = new ItemTouchHelper(callback);
+		helper.attachToRecyclerView(rv_placeList);
+
 	}
 
 	private void getReferences() {
