@@ -6,22 +6,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.impaul.harna100.roundrobinpicker.activities.MainActivity"
-    android:id="@+id/dl_drawer">
+    android:id="@+id/dl_drawer"
+    android:fitsSystemWindows="true">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fl_mainContainer"/>
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_mainToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:titleTextColor="@android:color/white"
+                android:background="@color/primaryColor"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fl_mainContainer"/>
+
+        </LinearLayout>
 
         <android.support.design.widget.NavigationView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/nv_navBar"
-            android:layout_gravity="start">
-            <android.support.v7.widget.RecyclerView
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rv_navList"/>
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/nav_header_main"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/rv_navList"/>
+
+            </LinearLayout>
+
         </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
