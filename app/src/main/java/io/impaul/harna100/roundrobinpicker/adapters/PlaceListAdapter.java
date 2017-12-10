@@ -72,6 +72,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 			Picasso.with(iv_cardPlacePhoto.getContext())
 					.load(placeModel.getPhotoUrl())
 					.fit()
+					.centerCrop()
 					.into(iv_cardPlacePhoto);
 		}
 	}
