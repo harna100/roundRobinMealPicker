@@ -2,9 +2,7 @@ package io.impaul.harna100.roundrobinpicker.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by Paul on 12/9/2017.
- */
+
 
 public class PlaceModel {
 	private String name;
