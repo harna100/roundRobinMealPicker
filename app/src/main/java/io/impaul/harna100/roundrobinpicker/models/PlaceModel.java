@@ -2,6 +2,10 @@ package io.impaul.harna100.roundrobinpicker.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.impaul.harna100.roundrobinpicker.room.models.Place;
 
 
 public class PlaceModel {
@@ -10,6 +14,9 @@ public class PlaceModel {
 	private String photoUrl;
 	private LatLng latLng;
 	private String address;
+	private String phoneNumber;
+	private int roomId;
+	private int placeId;
 
 	public PlaceModel(String name, String description, String photoUrl, LatLng latLng, String address) {
 		this.name = name;
@@ -17,6 +24,16 @@ public class PlaceModel {
 		this.photoUrl = photoUrl;
 		this.latLng = latLng;
 		this.address = address;
+		roomId = -1;
+	}
+
+	public PlaceModel(Place place) {
+		this.roomId = place.getId();
+		this.name = place.getName();
+		this.address = place.getAddress();
+		this.photoUrl = place.getPhotoUrl();
+		this.latLng = place.getLatLng();
+		this.description = place.getDescription();
 	}
 
 	public String getName() {
@@ -37,5 +54,25 @@ public class PlaceModel {
 
 	public String getAddress() {
 		return address;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public Place convertToRoom(){
+		return new Place(this);
+	}
+
+	public static List<PlaceModel> ConvertFromRoom(Place... places){
+		ArrayList<PlaceModel> toReturn = new ArrayList<>();
+		for (Place place : places) {
+			toReturn.add(new PlaceModel(place));
+		}
+		return toReturn;
+	}
+
+	public int getPlaceId() {
+		return placeId;
 	}
 }
