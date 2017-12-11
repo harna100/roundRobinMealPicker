@@ -25,7 +25,7 @@ public interface UserDao {
 	User authUser(String emailToAuth, String passwordToAuth);
 
 	@Insert
-	void insertAll(User... users);
+	long[] insertAll(User... users);
 
 	@Delete
 	void delete(User user);

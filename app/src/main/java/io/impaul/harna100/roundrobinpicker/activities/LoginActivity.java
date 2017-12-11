@@ -1,5 +1,8 @@
 package io.impaul.harna100.roundrobinpicker.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,8 +14,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import io.impaul.harna100.roundrobinpicker.R;
+import io.impaul.harna100.roundrobinpicker.room.AppDatabase;
+import io.impaul.harna100.roundrobinpicker.room.RoomSingleton;
+import io.impaul.harna100.roundrobinpicker.room.models.User;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -29,6 +36,22 @@ public class LoginActivity extends AppCompatActivity{
 		setContentView(R.layout.activity_login);
 		getReferences();
 		setListeners();
+		fillFields();
+//		createDummyUser();
+	}
+
+	private void fillFields() {
+		tv_email.setText("paul@ex.com", true);
+		et_password.setText("paul");
+	}
+
+	private void createDummyUser(){
+		User user = new User();
+		user.setEmail("paul@ex.com");
+		user.setPassword("paul");
+		user.setFirstName("Paul");
+		user.setLastName("Harnack");
+		RoomSingleton.GetDb(getApplicationContext()).userDao().insertAll(user);
 	}
 
 	private void getReferences(){
@@ -67,7 +90,50 @@ public class LoginActivity extends AppCompatActivity{
 	}
 
 	private void attemptLogin() {
+		String email = tv_email.getText().toString();
+		String password = et_password.getText().toString();
 
+
+		new AttemptLoginTask().execute(email, password);
+	}
+
+	private class AttemptLoginTask extends AsyncTask<String, Void, User> {
+
+		@Override
+		protected void onPreExecute() {
+			pv_progress.setVisibility(View.VISIBLE);
+			btn_signin.setEnabled(false);
+		}
+
+		@Override
+		protected User doInBackground(String... strings) {
+			// TODO remove sleep
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(strings.length != 2){
+				return null;
+			}
+			return RoomSingleton.GetDb(getApplicationContext()).userDao().authUser(strings[0], strings[1]);
+		}
+
+		@Override
+		protected void onPostExecute(User returnedUser) {
+
+			if(returnedUser == null){
+				Toast.makeText(getBaseContext(), "Not a valid email/password", Toast.LENGTH_SHORT).show();
+				pv_progress.setVisibility(View.GONE);
+				btn_signin.setEnabled(true);
+			}
+			else{
+				Intent intent = new Intent(getBaseContext(), PlaceSelectionActivity.class);
+
+				startActivity(intent);
+				finish();
+			}
+		}
 	}
 
 
