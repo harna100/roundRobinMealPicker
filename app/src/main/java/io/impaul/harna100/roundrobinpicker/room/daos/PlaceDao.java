@@ -30,4 +30,7 @@ public interface PlaceDao {
 
 	@Update
 	void updatePlaces(Place... places);
+
+	@Query("DELETE FROM places")
+	void nukeTable();
 }

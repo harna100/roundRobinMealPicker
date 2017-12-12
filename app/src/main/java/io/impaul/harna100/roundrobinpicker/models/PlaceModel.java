@@ -15,7 +15,6 @@ public class PlaceModel {
 	private LatLng latLng;
 	private String address;
 	private String phoneNumber;
-	private int roomId;
 	private int placeId;
 
 	public PlaceModel(String name, String description, String photoUrl, LatLng latLng, String address) {
@@ -24,11 +23,11 @@ public class PlaceModel {
 		this.photoUrl = photoUrl;
 		this.latLng = latLng;
 		this.address = address;
-		roomId = -1;
+		this.placeId = -1;
 	}
 
 	public PlaceModel(Place place) {
-		this.roomId = place.getId();
+		this.placeId = place.getId();
 		this.name = place.getName();
 		this.address = place.getAddress();
 		this.photoUrl = place.getPhotoUrl();
@@ -64,7 +63,7 @@ public class PlaceModel {
 		return new Place(this);
 	}
 
-	public static List<PlaceModel> ConvertFromRoom(Place... places){
+	public static List<PlaceModel> ConvertFromRoom(List<Place> places){
 		ArrayList<PlaceModel> toReturn = new ArrayList<>();
 		for (Place place : places) {
 			toReturn.add(new PlaceModel(place));

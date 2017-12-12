@@ -20,13 +20,14 @@ import io.impaul.harna100.roundrobinpicker.models.PlaceModel;
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceViewHolder> {
 	private List<PlaceModel> places;
 
-	public PlaceListAdapter(){
-		places = new ArrayList<>();
-		places.add(new PlaceModel("Place 5", "This is a description of place 5", "https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
-		places.add(new PlaceModel("Place 1", "This is a description of place 1", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
-		places.add(new PlaceModel("Place 2", "This is a description of place 2", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
-		places.add(new PlaceModel("Place 3", "This is a description of place 3", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
-		places.add(new PlaceModel("Place 4", "This is a description of place 4", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+	public PlaceListAdapter(List<PlaceModel> places){
+//		places = new ArrayList<>();
+//		places.add(new PlaceModel("Place 5", "This is a description of place 5", "https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+//		places.add(new PlaceModel("Place 1", "This is a description of place 1", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+//		places.add(new PlaceModel("Place 2", "This is a description of place 2", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+//		places.add(new PlaceModel("Place 3", "This is a description of place 3", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+//		places.add(new PlaceModel("Place 4", "This is a description of place 4", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
+		this.places = places;
 	}
 
 
@@ -53,6 +54,10 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 	public void remove(int adapterPosition) {
 		places.remove(adapterPosition);
 		notifyItemRemoved(adapterPosition);
+	}
+
+	public PlaceModel getItemAt(int idx){
+		return places.get(idx);
 	}
 
 	class PlaceViewHolder extends RecyclerView.ViewHolder {

@@ -2,7 +2,6 @@ package io.impaul.harna100.roundrobinpicker.room.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -32,14 +31,17 @@ public class Place {
 	private double lng;
 
 	@ColumnInfo(name = "did_choose")
-	private boolean didChose;
+	private boolean didChoose;
 
 	public Place(){
 
 	}
 
 	public Place(PlaceModel placeModel) {
-		this.id = placeModel.getPlaceId();
+		if(placeModel.getPlaceId() != 0){
+			this.id = placeModel.getPlaceId();
+		}
+		this.name = placeModel.getName();
 		this.address = placeModel.getAddress();
 		this.description = placeModel.getDescription();
 		this.phoneNumber = placeModel.getPhoneNumber();
@@ -116,11 +118,26 @@ public class Place {
 		this.description = description;
 	}
 
-	public boolean isDidChose() {
-		return didChose;
+	public boolean isDidChoose() {
+		return didChoose;
 	}
 
-	public void setDidChose(boolean didChose) {
-		this.didChose = didChose;
+	public void setDidChoose(boolean didChoose) {
+		this.didChoose = didChoose;
+	}
+
+	@Override
+	public String toString() {
+		return "Place{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", photoUrl='" + photoUrl + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				", address='" + address + '\'' +
+				", description='" + description + '\'' +
+				", lat=" + lat +
+				", lng=" + lng +
+				", didChoose=" + didChoose +
+				'}';
 	}
 }

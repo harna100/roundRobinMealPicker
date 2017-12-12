@@ -63,4 +63,14 @@ public class UserPlaces {
 	public void setDidChoose(boolean didChoose) {
 		this.didChoose = didChoose;
 	}
+
+	@Override
+	public String toString() {
+		return "UserPlaces{" +
+				"id=" + id +
+				", userId=" + userId +
+				", placeId=" + placeId +
+				", didChoose=" + didChoose +
+				'}';
+	}
 }

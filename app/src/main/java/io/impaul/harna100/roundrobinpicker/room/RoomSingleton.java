@@ -8,7 +8,7 @@ public class RoomSingleton {
 	private AppDatabase db;
 
 	private RoomSingleton(Context context){
-		db = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "database-name").build();
+		db = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "database-name").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
 	}
 
