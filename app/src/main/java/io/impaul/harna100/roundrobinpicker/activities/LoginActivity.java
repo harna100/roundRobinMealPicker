@@ -56,7 +56,8 @@ public class LoginActivity extends AppCompatActivity{
 		getReferences();
 		setListeners();
 		fillFields();
-		getPlaces();
+
+//		getPlaces();
 
 //		nukeAll();
 //		createDummyUser();
@@ -64,48 +65,8 @@ public class LoginActivity extends AppCompatActivity{
 	}
 
 	private void getPlaces() {
-		String baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-		String key = "AIzaSyCcEY0R4SXHcTwT7Y76pO2T8XbB7m1o10U";
-		String location = "33.793339,-117.852069";
-		String radius = "5000";
-		String keyword = "restaurant";
-
-		HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder();
-		urlBuilder.addQueryParameter("key", key);
-		urlBuilder.addQueryParameter("location", location);
-		urlBuilder.addQueryParameter("radius", radius);
-		urlBuilder.addQueryParameter("keyword", keyword);
-		String fullUrl = urlBuilder.build().toString();
-
-		final OkHttpClient client = new OkHttpClient();
-
-		final Request request = new Request.Builder()
-				.url(fullUrl)
-				.get()
-				.build();
-
-		client.newCall(request).enqueue(new Callback() {
-			@Override
-			public void onFailure(Call call, IOException e) {
-				e.printStackTrace();
-			}
-
-			@Override
-			public void onResponse(Call call, Response response) throws IOException {
-				if(!response.isSuccessful()){
-					Log.d(TAG, "onResponse: failed: " + response);
-				}
-				else{
-					Moshi moshi = new Moshi.Builder().build();
-					JsonAdapter<NearbyRaw> jsonAdapter = moshi.adapter(NearbyRaw.class);
-					NearbyRaw raw = jsonAdapter.fromJson(response.body().source());
-//					Log.d(TAG, "onResponse: resBody" + response.body());
-					Log.d(TAG, "onResponse: raw:" + raw);
-				}
-			}
-		});
-
-
+		PlaceUtil placeUtil = new PlaceUtil("AIzaSyCcEY0R4SXHcTwT7Y76pO2T8XbB7m1o10U");
+		placeUtil.getNearbyRaw("1000", "33.793339,-117.852069").execute();
 	}
 
 	private void nukeAll() {
@@ -138,8 +99,8 @@ public class LoginActivity extends AppCompatActivity{
 		List<Place> toInsert = new ArrayList<>();
 		int i = 1;
 		for (PlaceModel place : places) {
-			Place p = new Place(place);
-			p.setId(i++);
+			Place p = Place.NewPlace(place);
+//			p.setId(i++);
 			toInsert.add(p);
 		}
 		RoomSingleton.GetDb(this).placeDao().insertPlaces(toInsert.toArray(new Place[toInsert.size()]));

@@ -31,7 +31,7 @@ public class CardPlaceTouchHelper extends ItemTouchHelper.SimpleCallback {
 	@Override
 	public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 		PlaceModel viewPlace = placeAdapter.getItemAt(viewHolder.getAdapterPosition());
-		Place roomPlace = new Place(viewPlace);
+		Place roomPlace = Place.NewPlace(viewPlace);
 		UserPlaces toInsert = new UserPlaces();
 		toInsert.setPlaceId(roomPlace.getId());
 		toInsert.setUserId(SharedPrefSingleton.GetUserId(viewHolder.itemView.getContext()));

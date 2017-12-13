@@ -60,7 +60,7 @@ public class PlaceModel {
 	}
 
 	public Place convertToRoom(){
-		return new Place(this);
+		return Place.NewPlace(this);
 	}
 
 	public static List<PlaceModel> ConvertFromRoom(List<Place> places){

@@ -2,6 +2,8 @@ package io.impaul.harna100.roundrobinpicker.places;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -14,6 +16,8 @@ import io.impaul.harna100.roundrobinpicker.places.models.DetailPlace;
 import io.impaul.harna100.roundrobinpicker.places.models.DetailRaw;
 import io.impaul.harna100.roundrobinpicker.places.models.NearbyRaw;
 import io.impaul.harna100.roundrobinpicker.places.models.RoughPlace;
+import io.impaul.harna100.roundrobinpicker.room.RoomSingleton;
+import io.impaul.harna100.roundrobinpicker.room.models.Place;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -96,7 +100,6 @@ public class PlaceUtil {
 		@Override
 		protected List<NearbyRaw> doInBackground(Void... voids) {
 			Request request = new Request.Builder()
-//					.url(GetNearbyUrl("1000", "33.793339,-117.852069"))
 					.url(GetNearbyUrl(distance, locationInLatLng))
 					.get()
 					.build();
@@ -147,7 +150,6 @@ public class PlaceUtil {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					break;
 				}
 			}
 			return toReturn;
@@ -157,7 +159,35 @@ public class PlaceUtil {
 		protected void onPostExecute(List<DetailPlace> detailPlaces) {
 			for (DetailPlace detailPlace : detailPlaces) {
 				Log.d(TAG, "onPostExecute: Detail Place: " + detailPlace);
+
 			}
+		}
+	}
+
+	public class AddToDbTask extends AsyncTask<DetailPlace, Void, Void> {
+
+		private View progressBar;
+
+		public AddToDbTask(View progressBar) {
+			this.progressBar = progressBar;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progressBar.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected Void doInBackground(DetailPlace... detailPlaces) {
+			for (DetailPlace detailPlace : detailPlaces) {
+				RoomSingleton.GetDb(progressBar.getContext()).placeDao().insertPlaces(Place.NewPlace(detailPlace));
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			progressBar.setVisibility(View.GONE);
 		}
 	}
 

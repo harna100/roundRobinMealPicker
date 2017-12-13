@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
 import io.impaul.harna100.roundrobinpicker.models.PlaceModel;
+import io.impaul.harna100.roundrobinpicker.places.models.DetailPlace;
 
 @Entity(tableName = "places")
 public class Place {
@@ -37,17 +38,29 @@ public class Place {
 
 	}
 
-	public Place(PlaceModel placeModel) {
-		if(placeModel.getPlaceId() != 0){
-			this.id = placeModel.getPlaceId();
+	public static Place NewPlace(DetailPlace detailPlace){
+		Place toReturn = new Place();
+
+		// TODO fill this with proper stuffs
+
+		return toReturn;
+	}
+
+	public static Place NewPlace(PlaceModel placeModel){
+		Place toReturn = new Place();
+		if(placeModel.getPlaceId() != -1){
+			toReturn.id = placeModel.getPlaceId();
 		}
-		this.name = placeModel.getName();
-		this.address = placeModel.getAddress();
-		this.description = placeModel.getDescription();
-		this.phoneNumber = placeModel.getPhoneNumber();
-		this.photoUrl = placeModel.getPhotoUrl();
-		this.lat = placeModel.getLatLng().latitude;
-		this.lng = placeModel.getLatLng().longitude;
+		toReturn.name = placeModel.getName();
+		toReturn.address = placeModel.getAddress();
+		toReturn.description = placeModel.getDescription();
+		toReturn.phoneNumber = placeModel.getPhoneNumber();
+		toReturn.photoUrl = placeModel.getPhotoUrl();
+		toReturn.lat = placeModel.getLatLng().latitude;
+		toReturn.lng = placeModel.getLatLng().longitude;
+
+
+		return toReturn;
 	}
 
 	public int getId() {
