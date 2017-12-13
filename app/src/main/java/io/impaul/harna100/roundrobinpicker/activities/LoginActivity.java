@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity{
 		protected User doInBackground(String... strings) {
 			// TODO remove sleep
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(250);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

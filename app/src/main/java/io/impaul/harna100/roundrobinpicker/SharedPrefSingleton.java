@@ -34,7 +34,7 @@ public class SharedPrefSingleton {
 
 	public static boolean isFirstRun(Context context) {
 		if(!GetSharedPreferences(context).contains("first_run")){
-			GetSharedPreferences(context).edit().putBoolean("first_run", false);
+			GetSharedPreferences(context).edit().putBoolean("first_run", false).apply();
 			return true;
 		}
 		else{
