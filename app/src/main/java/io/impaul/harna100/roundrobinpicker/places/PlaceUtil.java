@@ -172,7 +172,6 @@ public class PlaceUtil {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					break;
 				}
 			}
 			return toReturn;
@@ -205,13 +204,13 @@ public class PlaceUtil {
 						.get()
 						.build();
 				Response response = GetResponse(request);
-				String fileName = UUID.randomUUID().toString();
-				File fileToSave = new File(progressBar.getContext().getExternalCacheDir() + File.separator + fileName);
-
 				BufferedSink sink = null;
 				try {
-					sink = Okio.buffer(Okio.sink(fileToSave));
 					if (response != null && (response.body().contentType().type().equals("image"))) {
+						String fileName = UUID.randomUUID().toString();
+						File fileToSave = new File(progressBar.getContext().getExternalCacheDir() + File.separator + fileName + "." + response.body().contentType().subtype());
+						sink = Okio.buffer(Okio.sink(fileToSave));
+
 						sink.writeAll(response.body().source());
 						detailPlace.photoPathOnDevice = fileToSave.getAbsolutePath();
 						Log.d(TAG, "doInBackground: Saved at: " + detailPlace.photoPathOnDevice);
@@ -219,8 +218,6 @@ public class PlaceUtil {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				break;
 			}
 
 			return toReturn;

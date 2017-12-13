@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity{
 
 
 
-		if(SharedPrefSingleton.isFirstRun(this));{
+		if(SharedPrefSingleton.isFirstRun(this)){
 			createDummyUser();
 			getPlaces();
 		}
