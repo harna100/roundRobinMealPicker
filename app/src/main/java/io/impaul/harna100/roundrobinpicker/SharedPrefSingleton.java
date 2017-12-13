@@ -3,6 +3,8 @@ package io.impaul.harna100.roundrobinpicker;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import io.impaul.harna100.roundrobinpicker.activities.LoginActivity;
+
 public class SharedPrefSingleton {
 	private static SharedPrefSingleton singleton;
 	private SharedPreferences sharedPreferences;
@@ -28,5 +30,16 @@ public class SharedPrefSingleton {
 
 	public static int GetUserId(Context context){
 		return GetSharedPreferences(context).getInt("user_id",-1);
+	}
+
+	public static boolean isFirstRun(Context context) {
+		if(!GetSharedPreferences(context).contains("first_run")){
+			GetSharedPreferences(context).edit().putBoolean("first_run", false);
+			return true;
+		}
+		else{
+			return false;
+		}
+
 	}
 }

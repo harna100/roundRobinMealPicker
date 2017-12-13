@@ -57,11 +57,13 @@ public class LoginActivity extends AppCompatActivity{
 		setListeners();
 		fillFields();
 
-//		getPlaces();
 
-//		nukeAll();
-//		createDummyUser();
-//		createDummyPlaces();
+
+		if(SharedPrefSingleton.isFirstRun(this));{
+			createDummyUser();
+			getPlaces();
+		}
+
 	}
 
 	private void getPlaces() {
