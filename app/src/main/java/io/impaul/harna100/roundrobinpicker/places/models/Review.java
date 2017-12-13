@@ -15,4 +15,18 @@ public class Review {
 	public String relativeTimeDescription;
 	public String text;
 	public double time;
+
+	@Override
+	public String toString() {
+		return "Review{" +
+				"authorName='" + authorName + '\'' +
+				", authorUrl='" + authorUrl + '\'' +
+				", language='" + language + '\'' +
+				", profilePhotoUrl='" + profilePhotoUrl + '\'' +
+				", rating=" + rating +
+				", relativeTimeDescription='" + relativeTimeDescription + '\'' +
+				", text='" + text + '\'' +
+				", time=" + time +
+				'}';
+	}
 }

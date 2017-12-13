@@ -23,5 +23,7 @@ public class DetailPlace {
 	public Review[] reviews;
 	public Photo[] photos;
 	@Json(name = "opening_hours")
-	public Hours[] openingHours;
+	public Hours openingHours;
+
+
 }
