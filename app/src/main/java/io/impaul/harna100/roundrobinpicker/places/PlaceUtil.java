@@ -53,8 +53,9 @@ public class PlaceUtil {
 		return GetUrl(baseUrl, key, location, radius, keyword);
 	}
 
-	private static String GetUrl(String baseUrl , String[]... queryPairs){
+	private String GetUrl(String baseUrl , String[]... queryPairs){
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder();
+		urlBuilder.addQueryParameter("key", key);
 		for (String[] queryPair : queryPairs) {
 			urlBuilder.addQueryParameter(queryPair[0], queryPair[1]);
 		}
