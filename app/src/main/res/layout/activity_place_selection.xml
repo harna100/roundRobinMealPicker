@@ -13,13 +13,17 @@
         android:orientation="vertical"
         android:layout_gravity="start|top"
         android:layout_height="match_parent">
-        <android.support.v7.widget.Toolbar
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="Swipe Places You Like"
-            android:minHeight="?attr/actionBarSize"
-            app:titleTextColor="@android:color/white"
-            android:background="@color/primaryColor"/>
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="Swipe Places You Like"
+                android:minHeight="?attr/actionBarSize"
+                app:titleTextColor="@android:color/white"
+                android:background="@color/primaryColor"/>
+        </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_placeList"

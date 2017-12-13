@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -60,6 +61,7 @@ public class LoginActivity extends AppCompatActivity{
 
 
 		if(SharedPrefSingleton.isFirstRun(this)){
+			Log.d(TAG, "onCreate: Is first run");
 			createDummyUser();
 			getPlaces();
 		}
@@ -67,7 +69,7 @@ public class LoginActivity extends AppCompatActivity{
 	}
 
 	private void getPlaces() {
-		PlaceUtil placeUtil = new PlaceUtil("AIzaSyCcEY0R4SXHcTwT7Y76pO2T8XbB7m1o10U");
+		PlaceUtil placeUtil = new PlaceUtil("AIzaSyDyAAkQUZ5RJ08ui7xKCHL9b1jxF_l8j9w");
 		placeUtil.getNearbyRaw("1000", "33.793339,-117.852069", pv_progress).execute();
 	}
 
@@ -99,10 +101,8 @@ public class LoginActivity extends AppCompatActivity{
 		places.add(new PlaceModel("Place 3", "This is a description of place 3", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
 		places.add(new PlaceModel("Place 4", "This is a description of place 4", "https://b.zmtcdn.com/data/reviews_photos/e64/738e59a141f1a89a732e791d12546e64_1446414326.jpg", new LatLng(42.306190, -83.714033), "Address 123 St. Orange CA 29866"));
 		List<Place> toInsert = new ArrayList<>();
-		int i = 1;
 		for (PlaceModel place : places) {
 			Place p = Place.NewPlace(place);
-//			p.setId(i++);
 			toInsert.add(p);
 		}
 		RoomSingleton.GetDb(this).placeDao().insertPlaces(toInsert.toArray(new Place[toInsert.size()]));

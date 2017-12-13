@@ -114,6 +114,11 @@ public class PlaceUtil {
 		}
 
 		@Override
+		protected void onPreExecute() {
+			progressbar.setVisibility(View.VISIBLE);
+		}
+
+		@Override
 		protected List<NearbyRaw> doInBackground(Void... voids) {
 			Request request = new Request.Builder()
 					.url(GetNearbyUrl(distance, locationInLatLng))
@@ -235,11 +240,6 @@ public class PlaceUtil {
 
 		public AddToDbTask(View progressBar) {
 			this.progressBar = progressBar;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			progressBar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
