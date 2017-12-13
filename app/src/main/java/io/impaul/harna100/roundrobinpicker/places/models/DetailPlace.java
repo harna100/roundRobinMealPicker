@@ -2,6 +2,8 @@ package io.impaul.harna100.roundrobinpicker.places.models;
 
 import com.squareup.moshi.Json;
 
+import java.util.Arrays;
+
 public class DetailPlace {
 	@Json(name = "formatted_address")
 	public String formattedAdress;
@@ -25,5 +27,25 @@ public class DetailPlace {
 	@Json(name = "opening_hours")
 	public Hours openingHours;
 
-
+	@Override
+	public String toString() {
+		return "DetailPlace{" +
+				"formattedAdress='" + formattedAdress + '\'' +
+				", formmatedPhoneNumber='" + formmatedPhoneNumber + '\'' +
+				", geometry=" + geometry +
+				", icon='" + icon + '\'' +
+				", id='" + id + '\'' +
+				", internationalPhoneNumber='" + internationalPhoneNumber + '\'' +
+				", name='" + name + '\'' +
+				", placeId='" + placeId + '\'' +
+				", rating=" + rating +
+				", reference='" + reference + '\'' +
+				", types=" + Arrays.toString(types) +
+				", url='" + url + '\'' +
+				", vicinity='" + vicinity + '\'' +
+				", reviews=" + Arrays.toString(reviews) +
+				", photos=" + Arrays.toString(photos) +
+				", openingHours=" + openingHours +
+				'}';
+	}
 }
