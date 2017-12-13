@@ -80,7 +80,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 			tv_cardPlaceName.setText(placeModel.getName());
 			tv_cardPlaceAddress.setText(placeModel.getAddress());
 			Picasso.with(iv_cardPlacePhoto.getContext())
-					.load(placeModel.getPhotoUrl())
+					.load("file:" + placeModel.getPhotoPathOnDevice())
 					.fit()
 					.centerCrop()
 					.into(iv_cardPlacePhoto);

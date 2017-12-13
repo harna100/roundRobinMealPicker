@@ -27,6 +27,8 @@ public class DetailPlace {
 	@Json(name = "opening_hours")
 	public Hours openingHours;
 
+	public String photoPathOnDevice;
+
 	@Override
 	public String toString() {
 		return "DetailPlace{" +

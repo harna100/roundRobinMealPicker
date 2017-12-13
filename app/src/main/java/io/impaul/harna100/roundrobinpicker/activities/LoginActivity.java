@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity{
 
 	private void getPlaces() {
 		PlaceUtil placeUtil = new PlaceUtil("AIzaSyCcEY0R4SXHcTwT7Y76pO2T8XbB7m1o10U");
-		placeUtil.getNearbyRaw("1000", "33.793339,-117.852069").execute();
+		placeUtil.getNearbyRaw("1000", "33.793339,-117.852069", pv_progress).execute();
 	}
 
 	private void nukeAll() {

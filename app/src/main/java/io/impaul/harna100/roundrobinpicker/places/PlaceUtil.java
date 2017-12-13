@@ -8,9 +8,13 @@ import android.widget.ProgressBar;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import io.impaul.harna100.roundrobinpicker.places.models.DetailPlace;
 import io.impaul.harna100.roundrobinpicker.places.models.DetailRaw;
@@ -19,9 +23,12 @@ import io.impaul.harna100.roundrobinpicker.places.models.RoughPlace;
 import io.impaul.harna100.roundrobinpicker.room.RoomSingleton;
 import io.impaul.harna100.roundrobinpicker.room.models.Place;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
 
 public class PlaceUtil {
 
@@ -41,8 +48,8 @@ public class PlaceUtil {
 		return null;
 	}
 
-	public NearbyRawTask getNearbyRaw(String distance, String locationInLatLng){
-		return new NearbyRawTask(distance, locationInLatLng);
+	public NearbyRawTask getNearbyRaw(String distance, String locationInLatLng, View progressbar){
+		return new NearbyRawTask(distance, locationInLatLng, progressbar);
 	}
 
 	protected String GetNearbyUrl(String distance, String locationInLatLng){
@@ -57,6 +64,20 @@ public class PlaceUtil {
 		return GetUrl(baseUrl, key, location, radius, keyword);
 	}
 
+	protected String GetDetailUrl(String placeId){
+		String baseUrl = "https://maps.googleapis.com/maps/api/place/details/json";
+
+		String[] place = {"placeid", placeId};
+		return GetUrl(baseUrl, place);
+	}
+
+	private String getPhotoUrl(String photoReference){
+		String baseUrl = "https://maps.googleapis.com/maps/api/place/photo";
+		String[] photo = {"photoreference", photoReference};
+		String[] maxWidth = {"maxwidth", "400"};
+		return GetUrl(baseUrl, photo, maxWidth);
+	}
+
 	private String GetUrl(String baseUrl , String[]... queryPairs){
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder();
 		urlBuilder.addQueryParameter("key", key);
@@ -64,13 +85,6 @@ public class PlaceUtil {
 			urlBuilder.addQueryParameter(queryPair[0], queryPair[1]);
 		}
 		return urlBuilder.build().toString();
-	}
-
-	protected String GetDetailUrl(String placeId){
-		String baseUrl = "https://maps.googleapis.com/maps/api/place/details/json";
-
-		String[] place = {"placeid", placeId};
-		return GetUrl(baseUrl, place);
 	}
 
 	public static Response GetResponse(Request request){
@@ -89,12 +103,14 @@ public class PlaceUtil {
 
 	public class NearbyRawTask extends AsyncTask<Void, Void, List<NearbyRaw>>{
 
+		private View progressbar;
 		private String distance;
 		private String locationInLatLng;
 
-		public NearbyRawTask(String distance, String locationInLatLng) {
+		public NearbyRawTask(String distance, String locationInLatLng, View progressbar) {
 			this.distance = distance;
 			this.locationInLatLng = locationInLatLng;
+			this.progressbar = progressbar;
 		}
 
 		@Override
@@ -128,10 +144,16 @@ public class PlaceUtil {
 				Log.e(TAG, "onPostExecute: ", new Exception("NearbyRaw was null"));
 				return;
 			}
-			new NearbyDetailTask().execute(nearbyRaw.toArray(new NearbyRaw[nearbyRaw.size()]));
+			new NearbyDetailTask(this.progressbar).execute(nearbyRaw.toArray(new NearbyRaw[nearbyRaw.size()]));
 		}
 	}
 	public class NearbyDetailTask extends AsyncTask<NearbyRaw, Void, List<DetailPlace>>{
+
+		private View progressbar;
+
+		public NearbyDetailTask(View progressbar) {
+			this.progressbar = progressbar;
+		}
 
 		@Override
 		protected List<DetailPlace> doInBackground(NearbyRaw... nearbyRaws) {
@@ -150,6 +172,7 @@ public class PlaceUtil {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					break;
 				}
 			}
 			return toReturn;
@@ -157,10 +180,55 @@ public class PlaceUtil {
 
 		@Override
 		protected void onPostExecute(List<DetailPlace> detailPlaces) {
-			for (DetailPlace detailPlace : detailPlaces) {
-				Log.d(TAG, "onPostExecute: Detail Place: " + detailPlace);
+			new GetPhotosTask(this.progressbar).execute(detailPlaces.toArray(new DetailPlace[detailPlaces.size()]));
+		}
+	}
 
+	public class GetPhotosTask extends AsyncTask<DetailPlace, Void, List<DetailPlace>>{
+		View progressBar;
+
+		public GetPhotosTask(View progressBar) {
+			this.progressBar = progressBar;
+		}
+
+		@Override
+		protected List<DetailPlace> doInBackground(DetailPlace... detailPlaces) {
+			List<DetailPlace> toReturn = Arrays.asList(detailPlaces);
+
+			for (DetailPlace detailPlace : toReturn) {
+				if(detailPlace.photos.length == 0){
+					continue;
+				}
+				String photoReference = detailPlace.photos[0].photoReference;
+				Request request = new Request.Builder()
+						.url(getPhotoUrl(photoReference))
+						.get()
+						.build();
+				Response response = GetResponse(request);
+				String fileName = UUID.randomUUID().toString();
+				File fileToSave = new File(progressBar.getContext().getExternalCacheDir() + File.separator + fileName);
+
+				BufferedSink sink = null;
+				try {
+					sink = Okio.buffer(Okio.sink(fileToSave));
+					if (response != null && (response.body().contentType().type().equals("image"))) {
+						sink.writeAll(response.body().source());
+						detailPlace.photoPathOnDevice = fileToSave.getAbsolutePath();
+						Log.d(TAG, "doInBackground: Saved at: " + detailPlace.photoPathOnDevice);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				break;
 			}
+
+			return toReturn;
+		}
+
+		@Override
+		protected void onPostExecute(List<DetailPlace> detailPlaces) {
+			new AddToDbTask(this.progressBar).execute(detailPlaces.toArray(new DetailPlace[detailPlaces.size()]));
 		}
 	}
 

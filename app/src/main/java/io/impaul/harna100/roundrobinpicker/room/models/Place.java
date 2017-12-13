@@ -3,6 +3,7 @@ package io.impaul.harna100.roundrobinpicker.room.models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.text.TextUtils;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,6 +34,15 @@ public class Place {
 
 	@ColumnInfo(name = "did_choose")
 	private boolean didChoose;
+	@ColumnInfo(name = "international_phone_number")
+	private String internationalPhoneNumber;
+	@ColumnInfo(name = "google_place_id")
+	private String googlePlaceId;
+	private double rating;
+	private String url;
+	private String hours;
+	@ColumnInfo(name = "photo_path_on_device")
+	private String photoPathOnDevice;
 
 	public Place(){
 
@@ -41,8 +51,17 @@ public class Place {
 	public static Place NewPlace(DetailPlace detailPlace){
 		Place toReturn = new Place();
 
-		// TODO fill this with proper stuffs
-
+		toReturn.address = detailPlace.formattedAdress;
+		toReturn.phoneNumber = detailPlace.formmatedPhoneNumber;
+		toReturn.internationalPhoneNumber = detailPlace.internationalPhoneNumber;
+		toReturn.name = detailPlace.name;
+		toReturn.googlePlaceId = detailPlace.placeId;
+		toReturn.rating = detailPlace.rating;
+		toReturn.url = detailPlace.url;
+		toReturn.hours = TextUtils.join("\n", detailPlace.openingHours.weekdayText);
+		toReturn.photoPathOnDevice = detailPlace.photoPathOnDevice;
+		toReturn.lat = detailPlace.geometry.location.lat;
+		toReturn.lng = detailPlace.geometry.location.lng;
 		return toReturn;
 	}
 
@@ -137,6 +156,55 @@ public class Place {
 
 	public void setDidChoose(boolean didChoose) {
 		this.didChoose = didChoose;
+	}
+
+
+	public String getInternationalPhoneNumber() {
+		return internationalPhoneNumber;
+	}
+
+	public void setInternationalPhoneNumber(String internationalPhoneNumber) {
+		this.internationalPhoneNumber = internationalPhoneNumber;
+	}
+
+	public String getGooglePlaceId() {
+		return googlePlaceId;
+	}
+
+	public void setGooglePlaceId(String googlePlaceId) {
+		this.googlePlaceId = googlePlaceId;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getHours() {
+		return hours;
+	}
+
+	public void setHours(String hours) {
+		this.hours = hours;
+	}
+
+	public String getPhotoPathOnDevice() {
+		return photoPathOnDevice;
+	}
+
+	public void setPhotoPathOnDevice(String photoPathOnDevice) {
+		this.photoPathOnDevice = photoPathOnDevice;
 	}
 
 	@Override

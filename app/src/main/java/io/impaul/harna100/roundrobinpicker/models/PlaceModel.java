@@ -16,6 +16,7 @@ public class PlaceModel {
 	private String address;
 	private String phoneNumber;
 	private int placeId;
+	private String photoPathOnDevice;
 
 	public PlaceModel(String name, String description, String photoUrl, LatLng latLng, String address) {
 		this.name = name;
@@ -33,6 +34,7 @@ public class PlaceModel {
 		this.photoUrl = place.getPhotoUrl();
 		this.latLng = place.getLatLng();
 		this.description = place.getDescription();
+		this.photoPathOnDevice = place.getPhotoPathOnDevice();
 	}
 
 	public String getName() {
@@ -63,15 +65,19 @@ public class PlaceModel {
 		return Place.NewPlace(this);
 	}
 
+	public int getPlaceId() {
+		return placeId;
+	}
+
+	public String getPhotoPathOnDevice() {
+		return photoPathOnDevice;
+	}
+
 	public static List<PlaceModel> ConvertFromRoom(List<Place> places){
 		ArrayList<PlaceModel> toReturn = new ArrayList<>();
 		for (Place place : places) {
 			toReturn.add(new PlaceModel(place));
 		}
 		return toReturn;
-	}
-
-	public int getPlaceId() {
-		return placeId;
 	}
 }

@@ -15,8 +15,26 @@ import io.impaul.harna100.roundrobinpicker.room.models.UserPlaces;
 public interface UserPlacesDao {
 
 //	@SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-	@Query("SELECT user_places_trimmed.did_choose AS did_choose, places.id AS id, name, photo_url, phone_number, address, description, lat, lng FROM (SELECT * FROM user_places WHERE user_id = :userId) AS user_places_trimmed " +
-			"JOIN places ON places.id = user_places_trimmed.place_id")
+	@Query("SELECT" +
+			"  user_places_trimmed.did_choose AS did_choose," +
+			"  places.id                      AS id," +
+			"  name," +
+			"  photo_url," +
+			"  phone_number," +
+			"  address," +
+			"  description," +
+			"  lat," +
+			"  lng," +
+			"  rating," +
+			"  international_phone_number," +
+			"  google_place_id," +
+			"  url," +
+			"  hours," +
+			"  photo_path_on_device" +
+			" FROM (SELECT *" +
+			"      FROM user_places" +
+			"      WHERE user_id = :userId) AS user_places_trimmed" +
+			"  JOIN places ON places.id = user_places_trimmed.place_id")
 	List<Place> getPlacesFromUser(int userId);
 
 //	@SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
