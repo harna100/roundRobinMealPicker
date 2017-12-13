@@ -1,5 +1,7 @@
 package io.impaul.harna100.roundrobinpicker.models;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class PlaceModel {
 	private String phoneNumber;
 	private int placeId;
 	private String photoPathOnDevice;
+	private String hours;
+
 
 	public PlaceModel(String name, String description, String photoUrl, LatLng latLng, String address) {
 		this.name = name;
@@ -35,6 +39,8 @@ public class PlaceModel {
 		this.latLng = place.getLatLng();
 		this.description = place.getDescription();
 		this.photoPathOnDevice = place.getPhotoPathOnDevice();
+		this.phoneNumber = place.getPhoneNumber();
+		this.hours = place.getHours();
 	}
 
 	public String getName() {
@@ -69,6 +75,13 @@ public class PlaceModel {
 		return placeId;
 	}
 
+	public String getDistance(){
+		float[] results = new float[3];
+		Location.distanceBetween(33.793339,-117.852069, getLatLng().latitude, getLatLng().longitude, results);
+		double miles = results[0] * 0.00062137d;
+		return Double.toString(miles).substring(0,4) + " mi";
+	}
+
 	public String getPhotoPathOnDevice() {
 		return photoPathOnDevice;
 	}
@@ -79,5 +92,9 @@ public class PlaceModel {
 			toReturn.add(new PlaceModel(place));
 		}
 		return toReturn;
+	}
+
+	public String getHours() {
+		return hours;
 	}
 }

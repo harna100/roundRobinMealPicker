@@ -1,10 +1,13 @@
 package io.impaul.harna100.roundrobinpicker.adapters;
 
+import android.app.Dialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.impaul.harna100.roundrobinpicker.R;
+import io.impaul.harna100.roundrobinpicker.dialogs.PlaceDetailDialog;
 import io.impaul.harna100.roundrobinpicker.models.PlaceModel;
 
 
@@ -60,14 +64,16 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 		return places.get(idx);
 	}
 
-	class PlaceViewHolder extends RecyclerView.ViewHolder {
+	class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private TextView tv_cardPlaceName;
 		private TextView tv_cardPlaceAddress;
 		private ImageView iv_cardPlacePhoto;
+		private PlaceModel place;
 
 		public PlaceViewHolder(View itemView) {
 			super(itemView);
 			getReferences(itemView);
+			itemView.setOnClickListener(this);
 		}
 
 		private void getReferences(View view) {
@@ -77,6 +83,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 		}
 
 		public void updateValues(PlaceModel placeModel) {
+			this.place = placeModel;
 			tv_cardPlaceName.setText(placeModel.getName());
 			tv_cardPlaceAddress.setText(placeModel.getAddress());
 			Picasso.with(iv_cardPlacePhoto.getContext())
@@ -84,6 +91,13 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 					.fit()
 					.centerCrop()
 					.into(iv_cardPlacePhoto);
+		}
+
+		@Override
+		public void onClick(View view) {
+			Dialog d = new PlaceDetailDialog(view.getContext(), place);
+			d.show();
+			d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 	}
 }
