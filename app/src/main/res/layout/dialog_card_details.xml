@@ -105,13 +105,13 @@ Sunday: 10:00 AM – 11:00 PM"
                     android:layout_height="wrap_content"
                     tools:text="(714) 997-6815"/>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_dialogDismiss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dismiss"
+                android:layout_marginBottom="24dp"/>
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/btn_dialogDismiss"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dismiss"
-        android:layout_marginBottom="24dp"/>
 </LinearLayout>
