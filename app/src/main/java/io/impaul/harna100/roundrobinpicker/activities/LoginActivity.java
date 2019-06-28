@@ -1,6 +1,8 @@
 package io.impaul.harna100.roundrobinpicker.activities;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
@@ -69,8 +71,15 @@ public class LoginActivity extends AppCompatActivity{
 	}
 
 	private void getPlaces() {
-		PlaceUtil placeUtil = new PlaceUtil("AIzaSyDyAAkQUZ5RJ08ui7xKCHL9b1jxF_l8j9w");
-		placeUtil.getNearbyRaw("1000", "33.793339,-117.852069", pv_progress).execute();
+		try {
+			ApplicationInfo ai = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+			String key = ai.metaData.getString("com.google.android.geo.API_KEY");
+			PlaceUtil placeUtil = new PlaceUtil(key);
+			placeUtil.getNearbyRaw("1000", "33.793339,-117.852069", pv_progress).execute();
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private void nukeAll() {

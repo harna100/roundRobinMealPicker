@@ -54,8 +54,7 @@ public class PlaceUtil {
 
 	protected String GetNearbyUrl(String distance, String locationInLatLng){
 		String baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-//		String key = "AIzaSyCcEY0R4SXHcTwT7Y76pO2T8XbB7m1o10U";
-//		String location = "33.793339,-117.852069";
+
 		String[] location = {"location", locationInLatLng};
 		String[] radius = {"radius", distance};
 		String[] keyword = {"keyword", "restaurant"};
